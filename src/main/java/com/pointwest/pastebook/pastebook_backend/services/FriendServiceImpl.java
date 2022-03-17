@@ -30,6 +30,7 @@ public class FriendServiceImpl implements FriendService {
     private FriendRequestRepository friendRequestRepository;
 
     // accepting friend
+    @Override
     public ResponseEntity acceptFriend(HashMap<String, Object> friendMap) {
         // need to add condition for the case where person A and person B BOTH sent a friend request to each other, but naunang i accept ni person A si person B (but still, the friend request person B has from person A is still existing), pero we can just add a conditional na kapag in-accept ito ni person B, sasabihin ("You're already friends [with Person A])
 
@@ -91,6 +92,7 @@ public class FriendServiceImpl implements FriendService {
     }
 
     // deleting friend
+    @Override
     public ResponseEntity deleteFriend(Long requesterId, Long recipientId) {
 
         for (Friend friend : friendRepository.findAll()) {
@@ -105,6 +107,7 @@ public class FriendServiceImpl implements FriendService {
     // VERY IMPORTANT NOTE: the friends table is actually really complex because 'friends' is bi-directional! we just added a conditional statement for all the methods here to cover this bi-directional relationship
 
     // get all friends given a particular page id
+    @Override
     public ResponseEntity getFriends(Long pageId) {
         ArrayList<User> friendListPart1 = new ArrayList<>();
         ArrayList<User> friendListPart2 = new ArrayList<>();
@@ -132,7 +135,10 @@ public class FriendServiceImpl implements FriendService {
 
     }
 
+
+
     // get one friend
+    @Override
     public ResponseEntity getOneFriend(Long requesterId, Long recipientId) {
         for (Friend friend : friendRepository.findAll()) {
             if ((requesterId == friend.getRequester().getId() && recipientId == friend.getRecipient().getId()) || (requesterId == friend.getRecipient().getId() && requesterId == friend.getRequester().getId())) {

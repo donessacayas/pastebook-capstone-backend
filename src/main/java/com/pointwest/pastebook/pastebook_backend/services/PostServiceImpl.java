@@ -9,8 +9,10 @@ import com.pointwest.pastebook.pastebook_backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.swing.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -60,7 +62,7 @@ public class PostServiceImpl implements PostService {
 
   @Override
   public Page<Post> getPostsPagination(Integer page, Integer size) {
-    return postRepository.findAll(PageRequest.of(page, size));
+    return postRepository.findAll(PageRequest.of(page, size).withSort(Sort.by(Sort.Direction.DESC, "id")));
   }
 
   @Override

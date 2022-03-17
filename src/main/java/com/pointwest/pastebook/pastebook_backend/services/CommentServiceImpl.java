@@ -1,19 +1,16 @@
 package com.pointwest.pastebook.pastebook_backend.services;
 
 import com.pointwest.pastebook.pastebook_backend.config.JwtToken;
-import com.pointwest.pastebook.pastebook_backend.models.Comment;
-import com.pointwest.pastebook.pastebook_backend.models.LikedPost;
-import com.pointwest.pastebook.pastebook_backend.models.Post;
-import com.pointwest.pastebook.pastebook_backend.models.User;
-import com.pointwest.pastebook.pastebook_backend.repositories.CommentRepository;
-import com.pointwest.pastebook.pastebook_backend.repositories.LikedPostRepository;
-import com.pointwest.pastebook.pastebook_backend.repositories.PostRepository;
-import com.pointwest.pastebook.pastebook_backend.repositories.UserRepository;
+import com.pointwest.pastebook.pastebook_backend.models.*;
+import com.pointwest.pastebook.pastebook_backend.repositories.*;
+import com.pointwest.pastebook.pastebook_backend.sockets.SocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Optional;
 
 @Service
@@ -30,8 +27,14 @@ public class CommentServiceImpl implements CommentService{
     @Autowired
     private JwtToken jwtToken;
 
+    @Autowired
+    private NotificationRepository notificationRepository;
+
+    @Autowired
+    private SocketHandler socketHandler;
+
     @Override
-    public Comment commentPost(Long postId, String content, String token) {
+    public Comment commentPost(Long postId, String content, String token) throws IOException {
         Optional<Post> postToComment = postRepository.findById(postId);
         if(postToComment.isPresent()){
             Comment comment = new Comment();
@@ -43,6 +46,17 @@ public class CommentServiceImpl implements CommentService{
             comment.setContent(content);
             post.getComments().add(comment);
             postRepository.save(post);
+
+            Notification notification = new Notification();
+            notification.setPost(post);
+            notification.setContent("commented on your post");
+            //notification.setDatetimeCreated(dateFormat.format(Timestamp.from(Instant.now())));
+            notification.setDatetimeCreated(new Timestamp(System.currentTimeMillis()));
+            notification.setSender(user);
+            notification.setReadStatus(false);
+            notificationRepository.save(notification);
+            // Notify User
+            socketHandler.notifyUser(post.getUser().getId());
             return commentRepository.save(comment);
         }else{
             throw new RuntimeException("An error occurred");

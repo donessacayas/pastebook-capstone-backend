@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -20,8 +21,7 @@ public class CommentController {
     public ResponseEntity<Comment> addCommentToPost(
             @PathVariable Long postId,
             @RequestBody Map<String, String> body,
-            @RequestHeader (value = "Authorization") String stringToken)
-    {
+            @RequestHeader (value = "Authorization") String stringToken) throws IOException {
 
         return ResponseEntity.ok().body(commentService.commentPost(postId,body.get("comment"), stringToken));
     }

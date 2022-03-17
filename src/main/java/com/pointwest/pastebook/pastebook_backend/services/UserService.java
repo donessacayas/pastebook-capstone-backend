@@ -33,6 +33,8 @@ public interface UserService {
     // get user
     ResponseEntity getUserTest(Long id);
 
+    void setOnlineStatus(Long id);
+    void setOfflineStatus(Long id);
 
 
 }

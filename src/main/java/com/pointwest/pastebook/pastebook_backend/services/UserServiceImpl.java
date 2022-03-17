@@ -171,6 +171,22 @@ public class UserServiceImpl implements UserService {
         return userRepository.getUserDetailsByMobile(mobile);
     }
 
+    @Override
+    public void setOnlineStatus(Long id) {
+        System.out.println("Going online " + userRepository.findById(id));
+        User user = userRepository.findById(id).get();
+        user.setOnline(true);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void setOfflineStatus(Long id) {
+        System.out.println("Going offline " + userRepository.findById(id));
+        User user = userRepository.findById(id).get();
+        user.setOnline(false);
+        userRepository.save(user);
+    }
+
     // FOR TESTING CODES
     // get users
     public ResponseEntity getUsersTest() {
@@ -182,4 +198,6 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).get();
         return new ResponseEntity(user, HttpStatus.OK);
     }
+
+
 }

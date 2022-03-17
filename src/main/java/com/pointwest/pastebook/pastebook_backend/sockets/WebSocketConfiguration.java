@@ -1,5 +1,7 @@
 package com.pointwest.pastebook.pastebook_backend.sockets;
 
+import com.pointwest.pastebook.pastebook_backend.services.FriendService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -17,8 +19,14 @@ import java.util.Map;
 @EnableWebSocket
 public class WebSocketConfiguration implements WebSocketConfigurer {
 
+    @Autowired
+    private SocketHandler socketHandler;
+
+
+
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new SocketHandler(), "/onlineconnection")
+        //registry.addHandler(new SocketHandler(), "/onlineconnection")
+        registry.addHandler(socketHandler, "/onlineconnection")
                 .setAllowedOrigins("*")
                 // initial Request/Handshake interceptor
                 .addInterceptors(new HttpSessionHandshakeInterceptor() {
@@ -26,10 +34,7 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
                     @Override
                     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, @Nullable Exception ex) {
                         super.afterHandshake(request, response, wsHandler, ex);
-                        System.out.println("Request: " + request);
-                        System.out.println("Response: " + response);
-                        System.out.println("wsHandler:" + wsHandler);
-                        System.out.println("ex:" + ex);
+
                     }
 
                     @Override

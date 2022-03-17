@@ -1,6 +1,7 @@
 package com.pointwest.pastebook.pastebook_backend.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -27,7 +28,7 @@ public class Post {
   private Set<Comment> comments;
 
   @OneToMany(mappedBy = "post")
-  private List<LikedPost> likes;
+  private List<LikedPost> likes = new ArrayList<>();
 
   public Post() {}
 
