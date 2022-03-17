@@ -22,7 +22,7 @@ public interface UserService {
     ResponseEntity getProfile(String profileUrl, String token);
 
     // search user
-    ResponseEntity searchUser(String searchTerm);
+    ResponseEntity searchUser(String searchTerm, String stringToken);
 
     Optional<User> findByEmail(String email);
     Optional<User> findByMobile(String mobile);

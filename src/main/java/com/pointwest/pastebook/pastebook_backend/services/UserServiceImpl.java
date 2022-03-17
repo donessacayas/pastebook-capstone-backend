@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
     }
 
     // search user
-    public ResponseEntity searchUser(String searchTerm) {
+    public ResponseEntity searchUser(String searchTerm, String stringToken) {
         ArrayList<User> searchedUsers = new ArrayList<>();
         ArrayList<String> searchedUsersUrl = new ArrayList<>();
         ArrayList<User> searchedUsersAlphabetical = new ArrayList<>();
