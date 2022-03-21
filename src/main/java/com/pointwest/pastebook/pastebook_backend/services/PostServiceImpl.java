@@ -51,7 +51,7 @@ public class PostServiceImpl implements PostService {
     //    tag.setPost(post);
     //    tag.setUser(userTobeTagged);
     user.getPosts().add(post);
-    userRepository.save(user);
+    //    userRepository.save(user);
     post.setUser(user);
     //    post.getTags().add(tag);
     return postRepository.save(post);
@@ -117,7 +117,8 @@ public class PostServiceImpl implements PostService {
     Collection<Long> ids = friendList.stream().map(User::getId).collect(Collectors.toList());
     System.out.println(ids);
     ids.add(id);
-    return postRepository.findByUser_IdIn(ids);
+    return postRepository.findByUser_IdIn(
+        ids, PageRequest.of(page, size).withSort(Sort.by(Sort.Direction.DESC, "id")));
   }
 
   @Override
