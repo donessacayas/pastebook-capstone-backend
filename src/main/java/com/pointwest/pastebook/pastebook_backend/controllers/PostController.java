@@ -74,8 +74,7 @@ public class PostController {
   public ResponseEntity<List<Post>> getPostWithFriends(
       @PathVariable Long userId,
       @RequestParam("page") Integer page,
-      @RequestParam("size") Integer size,
-      @RequestHeader("Authorization") String token) {
+      @RequestParam("size") Integer size) {
     return ResponseEntity.ok().body(postService.getPostOfFriends(userId, page, size));
   }
 

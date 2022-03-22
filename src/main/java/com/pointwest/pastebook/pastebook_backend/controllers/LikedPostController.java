@@ -15,7 +15,6 @@ public class LikedPostController {
     @Autowired private LikedPostService likedPostService;
 
     @PostMapping("/like/{postId}")
-
     public ResponseEntity<Object> likePost(
             @PathVariable Long postId, @RequestHeader(value = "Authorization") String stringToken) throws IOException {
         likedPostService.likePost(postId, stringToken);
