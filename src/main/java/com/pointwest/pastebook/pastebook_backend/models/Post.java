@@ -27,7 +27,7 @@ public class Post {
   @OneToMany(mappedBy = "post")
   private Set<Comment> comments;
 
-  @OneToMany(mappedBy = "post")
+  @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
   private List<LikedPost> likes = new ArrayList<>();
 
   @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST)

@@ -12,4 +12,6 @@ public interface LikedPostRepository extends JpaRepository<LikedPost, Long> {
     @Query(value = "SELECT * FROM liked_posts WHERE post_id= ?1 AND user_id = ?2",
             nativeQuery = true)
     LikedPost getLikePostToUnlike(Long post_id, Long user_id);
+
+    LikedPost findByUser_Id(Long id);
 }

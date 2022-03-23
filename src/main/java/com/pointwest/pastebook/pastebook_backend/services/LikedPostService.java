@@ -12,7 +12,7 @@ public interface LikedPostService {
 
 
 
-    LikedPost likePost(Long postId, String token) throws IOException;
+    void likePost(Long postId, String token) throws IOException;
 
 
     Integer getLikes(Long postId);
