@@ -103,10 +103,12 @@ public class SocketHandler extends TextWebSocketHandler {
         //System.out.println("Connections: " + id_sessions.size() );
         for (Map.Entry<String, WebSocketSession> sendRequest : id_sessions.entrySet()) {
             //System.out.println(sendRequest.getKey());
-            if(sendRequest.getKey().equals(userId.toString()) ) {
-                //System.out.println("Found user, notifying now");
-                sendRequest.getValue().sendMessage(new TextMessage("{\"Message\":\"You got notification\"}"));
-                break;
+            if(userId!=null){
+                if(sendRequest.getKey().equals(userId.toString()) ) {
+                    //System.out.println("Found user, notifying now");
+                    sendRequest.getValue().sendMessage(new TextMessage("{\"Message\":\"You got notification\"}"));
+                    break;
+                }
             }
         }
     }

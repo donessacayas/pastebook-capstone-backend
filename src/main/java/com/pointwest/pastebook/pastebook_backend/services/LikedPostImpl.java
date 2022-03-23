@@ -42,15 +42,17 @@ public class LikedPostImpl implements LikedPostService {
     @Override
     public void likePost(Long postId, String token) throws IOException {
 
+
         Optional<Post> postToLike = postRepository.findById(postId);
         Long authenticatedId = Long.parseLong(jwtToken.getIdFromToken(token));
         User user = userRepository.findById(authenticatedId).get();
-
         if(postToLike.isPresent()){
             LikedPost commenceLike = new LikedPost();
             commenceLike.setPost(postToLike.get());
             commenceLike.setUser(user);
             postToLike.get().getLikes().add(commenceLike);
+            System.out.println("This is the post id");
+            System.out.println(postToLike.get().getId());
             postRepository.save(postToLike.get());
            // likedPostRepository.save(commenceLike);
 
