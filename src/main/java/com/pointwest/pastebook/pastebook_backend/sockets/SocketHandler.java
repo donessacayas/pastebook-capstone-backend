@@ -91,7 +91,7 @@ public class SocketHandler extends TextWebSocketHandler {
         List<Long> userIds = friendRepository.friendsIds(userId);
         for (Long friendsId:userIds) {
             for (Map.Entry<String, WebSocketSession> sendRequest : id_sessions.entrySet()) {
-                if(sendRequest.getKey()== friendsId.toString())
+                if(sendRequest.getKey().equals(   friendsId.toString()))
                     sendRequest.getValue().sendMessage(new TextMessage("{\"Message\":\"You got notification\"}"));
             }
         }
